@@ -1,0 +1,3 @@
+El estudiante alberto con cédula número: 123
+se ha matriculado exitosamente en el curso "Estructuras de Datos"
+que tiene una duración de 12 meses y un valor de $120000

@@ -1,5 +1,7 @@
 const {cursos} = require('./cursos')
 const fs = require('fs');
+const express = require('express')
+const app = express()
 
 
 const opciones = {
@@ -21,14 +23,14 @@ const argv = require('yargs')
             .argv
 
 //Arrow function para la creacion del archivo de inscripción
-let crearArchivo = (datos, curso_encontrado) => {
-    let contenido = 'El estudiante ' + datos.nombre + ' con cédula número: ' + datos.cedula + '\n' +
-                    'se ha matriculado exitosamente en el curso "' + curso_encontrado.nombre + '"' + '\n' +
+let mostrarWeb = (datos, curso_encontrado) => {
+    let contenido = 'El estudiante ' + datos.nombre + ' con cédula número: ' + datos.cedula + '<br />' +
+                    'se ha matriculado exitosamente en el curso "' + curso_encontrado.nombre + '"' + '<br />' +
                     'que tiene una duración de ' + curso_encontrado.duracion + ' meses y un valor de $' + curso_encontrado.valor;
-    fs.writeFile('inscripcion.txt', contenido, (error) => {
-        if (error) throw (error);
-        console.log('Archivo de inscripción creado exitosamente');
+    app.get('/', (req, res) => {
+        res.send(contenido)
     })
+    app.listen(3000)
 }
 
 // Función encargada del listado de cursos
@@ -47,7 +49,7 @@ if (argv._.length) {
     let curso_encontrado = cursos.find(curso => curso.id == argv.id_curso);
     
     if (curso_encontrado !== undefined) {
-        crearArchivo(argv, curso_encontrado);
+        mostrarWeb(argv, curso_encontrado);
     }else{
         console.log('No se ha encontrado ningún Curso con el ID ingresado');
         listarCursos();
